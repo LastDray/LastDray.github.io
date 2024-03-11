@@ -25,9 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("scroll-lock");
     })
 
-    function handleClose() {
+    function handleClose(elementDialog) {
         const keyFrame = new KeyframeEffect(
-            locationDialog, 
+            elementDialog, 
           [{opacity: "0"}], 
           { duration: 500, easing: "ease", direction: "normal" }
         )
@@ -35,16 +35,30 @@ document.addEventListener("DOMContentLoaded", () => {
         const animation = new Animation(keyFrame, document.timeline)
         animation.play()
         animation.onfinish = () => {
-            locationDialog.close()
+            elementDialog.close()
             document.body.classList.remove("scroll-lock");
         };
     }
 
     locationItems.forEach((item) => {
         item.addEventListener("click", () => {
-            handleClose();
+            handleClose(locationDialog);
             saveCity(item.textContent);
             loadCity();
         });
+    });
+
+    const formDialog = document.querySelector(".form-modal");
+    const formButtonOpen = document.querySelector(".benefit__block-action .btn");
+    const formButtonSubmit = document.querySelector(".form-modal .instructions__form-action .btn");
+
+    formButtonOpen.addEventListener("click", () => {
+        formDialog.showModal();
+        document.body.classList.add("scroll-lock");
+    });
+
+    formButtonSubmit.addEventListener("click", () => {
+        formDialog.querySelector("form").reset();
+        document.body.classList.remove("scroll-lock");
     });
 });
