@@ -53,15 +53,65 @@ document.addEventListener("DOMContentLoaded", () => {
     const formDialog = document.querySelector(".form-modal");
     const formButtonOpen = document.querySelector(".benefit__block-action .btn");
     const formButtonSubmit = document.querySelector(".form-modal .instructions__form-action .btn");
+    const formTelInput = document.querySelector(".form-modal input[type='tel']")
+    const formFeedback = document.querySelector(".form-modal .instructions__form-feedback");
+    const formCheckbox = formDialog.querySelector(".instructions__form-checkbox");
+
+    function formFeedbackFunc(form, text, ok) {
+        const formFeedback = form.querySelector(".instructions__form-feedback");
+        images = formFeedback.querySelectorAll("img");
+        if (!ok) {
+            images[1].classList.remove("hidden");
+            images[0].classList.add("hidden");
+        } else {
+            images[0].classList.remove("hidden");
+            images[1].classList.add("hidden");
+        }
+        
+        formFeedbackText = formFeedback.querySelector("div");
+        formFeedbackText.textContent = text;
+        formFeedback.classList.remove("instructions__form-feedback_hidden");
+    }
 
     formButtonOpen.addEventListener("click", () => {
         formDialog.showModal();
         document.body.classList.add("scroll-lock");
     });
 
-    formButtonSubmit.addEventListener("click", () => {
-        formDialog.querySelector("form").reset();
-        document.body.classList.remove("scroll-lock");
+    formButtonSubmit.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (formTelInput.value.length < 18) {
+            formFeedbackFunc(formDialog, "Неправильно введён номер", false);
+        } else if (!formCheckbox.checked) {
+            formFeedbackFunc(formDialog, "Необходимо принять условия соглашения", false);
+        } else {
+            formFeedbackFunc(formDialog, "Промокод выслан на ваш номер", true);
+            setTimeout(() => {
+                formDialog.querySelector("form").reset();
+                formDialog.close();
+                document.body.classList.remove("scroll-lock");
+                formFeedback.classList.add("instructions__form-feedback_hidden");
+            }, 1000);
+        }
+        
+    });
+
+    // Форма
+    const formInstructions = document.querySelector(".instructions__form");
+    const formInstructionsTel = formInstructions.querySelector("input[type='tel']");
+    const formInstructionsCheckbox = formInstructions.querySelector("input[type='checkbox']");
+    const formInstructionsSubmit = formInstructions.querySelector(".instructions__form-action .btn");
+
+    formInstructionsSubmit.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (formInstructionsTel.value.length < 18) {
+            formFeedbackFunc(formInstructions, "Неправильно введён номер", false);
+        } else if (!formInstructionsCheckbox.checked) {
+            formFeedbackFunc(formInstructions, "Необходимо принять условия соглашения", false);
+        } else {
+            formFeedbackFunc(formInstructions, "Промокод выслан на ваш номер", true);
+            formInstructions.reset();
+        }
     });
 
     // Маска для номера

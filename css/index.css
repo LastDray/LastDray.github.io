@@ -410,6 +410,10 @@ header {
     background-color: rgb(38, 43, 54);
 }
 
+.instructions__form-feedback_hidden {
+    display: none;
+}
+
 .instructions__form-feedback img {
     display: block;
     margin-right: 14px;
@@ -924,4 +928,8 @@ footer {
         padding-right: 30px;
     }
 
+}
+
+img.hidden {
+    display: none;
 }
