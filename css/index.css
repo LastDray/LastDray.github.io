@@ -124,6 +124,23 @@ a:active {
     color: var(--main-blue-color);
 }
 
+.button-back {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    opacity: 0.5;
+    width: 40px;
+    height: 40px;
+}
+
+.button-back_hidden {
+    display: none;
+}
+
+.button-back img {
+    width: 100%;
+}
+
 header {
     min-height: 78px;
     border-bottom: 1px solid var(--border-color);
